@@ -1,0 +1,84 @@
+﻿@model PokeGame_MVC.Entities.UsuarioModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Pokémon</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            /* background: url('https://example.com/pokemon-background.jpg') no-repeat center center fixed; */
+            background-color:lightgrey;
+            background-size: cover;
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        .login-container {
+            margin-top: 10%;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn-pokemon {
+            background-color: #ffcc01;
+            border: none;
+            color: black;
+            font-size: 1.2rem;
+        }
+
+            .btn-pokemon:hover {
+                background-color: #ffcb05;
+            }
+
+        .pokemon-logo {
+            width: 100px;
+            display: block;
+            margin: 0 auto 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="login-container text-center">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Pokebola-pokeball-png-0.png/769px-Pokebola-pokeball-png-0.png" alt="Pokémon Logo" class="pokemon-logo">
+
+                        <h1 class="h3 mb-3 font-weight-norma">Iniciar Sesión</h1>
+                        @using (Html.BeginForm("Ingresar", "Sistema", FormMethod.Post))
+                        {
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => m.Username, null, new { @class = "form-control", placeholder = "Correo Electrónico" })
+                                @Html.ValidationMessageFor(m => m.Username, null, new { @class = "text-danger" })
+                            </div>
+                          
+                            <div class="form-group">
+                                @Html.PasswordFor(m => m.PasswordHash, new { @class = "form-control" , placeholder = "Contraseña"})
+                                @Html.ValidationMessageFor(m => m.PasswordHash, null, new { @class = "text-danger" })
+                            </div>
+
+                            <button class="btn btn-lg btn-pokemon btn-block mb-4">Iniciar Sesion</button>
+                        }
+                        <a href="#" class="mt-">Crear nueva cuenta</a>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
