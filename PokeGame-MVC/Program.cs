@@ -1,7 +1,14 @@
+using PokeGame_MVC.Database;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Registro del contexto en el contenedor de servicios
+builder.Services.AddDbContext<PokeGameContext>();
+
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 
@@ -22,6 +29,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Sistema}/{action=Ingresar}");
+    pattern: "{controller=Home}/{action=Index}");
 
 app.Run();

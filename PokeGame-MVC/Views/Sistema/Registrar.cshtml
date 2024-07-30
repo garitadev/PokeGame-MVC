@@ -1,6 +1,7 @@
 ﻿@model PokeGame_MVC.Entities.UsuarioModel
 @{
     Layout = null;
+    string mjs = ViewBag.Error;
 }
 <!DOCTYPE html>
 <html lang="es">
@@ -13,7 +14,7 @@
     <style>
         body {
             /* background: url('https://example.com/pokemon-background.jpg') no-repeat center center fixed; */
-            background-color:lightgrey;
+            background-color: lightgrey;
             background-size: cover;
             font-family: 'Press Start 2P', cursive;
         }
@@ -48,26 +49,38 @@
     <div>
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <div class="login-container text-center">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Pokebola-pokeball-png-0.png/769px-Pokebola-pokeball-png-0.png" alt="Pokémon Logo" class="pokemon-logo">
 
-                        <h1 class="h3 mb-3 font-weight-norma">Iniciar Sesión</h1>
-                        @using (Html.BeginForm("Ingresar", "Sistema", FormMethod.Post))
+                        <h1 class="h3 mb-3 font-weight-norma mb-sm-3">Crear nueva cuenta</h1>
+                        @using (Html.BeginForm("Registrar", "Sistema", FormMethod.Post))
                         {
                             <div class="form-group">
+                                @Html.TextBoxFor(m => m.Username, null, new { @class = "form-control", placeholder = "Username" })
+                                @Html.ValidationMessageFor(m => m.Username, null, new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group mt-4">
                                 @Html.TextBoxFor(m => m.Email, null, new { @class = "form-control", placeholder = "Correo Electrónico" })
                                 @Html.ValidationMessageFor(m => m.Email, null, new { @class = "text-danger" })
                             </div>
-                          
-                            <div class="form-group">
-                                @Html.PasswordFor(m => m.PasswordHash, new { @class = "form-control" , placeholder = "Contraseña"})
+
+
+                            <div class="form-group- mt-4">
+                                @Html.PasswordFor(m => m.PasswordHash, new { @class = "form-control", placeholder = "Contraseña" })
                                 @Html.ValidationMessageFor(m => m.PasswordHash, null, new { @class = "text-danger" })
                             </div>
-
-                            <button class="btn btn-lg btn-pokemon btn-block mb-4">Iniciar Sesion</button>
+                            <div class="form-group mt-4">
+                                @Html.PasswordFor(m => m.PasswordVerify, new { @class = "form-control", placeholder = "Confirmar contraseña" })
+                                @Html.ValidationMessageFor(m => m.PasswordVerify, null, new { @class = "text-danger" })
+                            </div>
+                            @if (mjs != null)
+                            {
+                                <span class="text-danger field-validation-error" >@mjs</span>
+                            }
+                            <button class="btn btn-lg btn-pokemon btn-block mb-4 mt-5">Registrarme</button>
                         }
-                        <a href="/Sistema/Registrar" class="mt-">Crear nueva cuenta</a>
+                        <a href="/Sistema/Ingresar" class="mt-">Ya tengo cuenta</a>
                     </div>
                 </div>
 
