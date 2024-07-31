@@ -1,17 +1,22 @@
 using Microsoft.AspNetCore.Mvc;
 using PokeGame_MVC.Entities;
 using PokeGame_MVC.Models;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.Json;
 
 namespace PokeGame_MVC.Controllers
 {
+
+  
+
     public class HomeController : Controller
     {
+
         private readonly ILogger<HomeController> _logger;
         private readonly HttpClient _httpClient;
 
-        
+
 
         public HomeController(ILogger<HomeController> logger, HttpClient httpClient)
         {
@@ -22,19 +27,27 @@ namespace PokeGame_MVC.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var response = await _httpClient.GetAsync("https://pokeapi.co/api/v2/pokemon?limit=100");
-            response.EnsureSuccessStatusCode();
-
-            var json = await response.Content.ReadAsStringAsync();
-            var pokemons = JsonSerializer.Deserialize<PokeApiResponse>(json);
-
-            var res =  pokemons.Results.Select(p => new Pokemon
+            try
             {
-                Id = int.Parse(p.Url.Split('/').Reverse().Skip(1).First()),
-                Name = p.Name,
-                ImageUrl = $"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{1}.png"
-            }).ToList();
-            return View();
+                var response = await _httpClient.GetAsync("https://pokeapi.co/api/v2/pokemon?limit=100");
+                response.EnsureSuccessStatusCode();
+                string json = "[{\"name\":\"bulbasaur\",\"url\":\"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png\"},{\"name\":\"ivysaur\",\"url\":\"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png\"},{\"name\":\"venusaur\",\"url\":\"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png\"},{\"name\":\"charmander\",\"url\":\"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png\"},{\"name\":\"charmeleon\",\"url\":\"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png\"},{\"name\":\"charizard\",\"url\":\"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png\"}]";
+
+                //List<Pokemon> pokemons = JsonSerializer.Deserialize<List<Pokemon>>(json);
+                List<Pokemon> pokemons = JsonSerializer.Deserialize<List<Pokemon>>(json, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+
+
+
+                return View(pokemons);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
         public IActionResult Privacy()
@@ -48,6 +61,6 @@ namespace PokeGame_MVC.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-       
+
     }
 }

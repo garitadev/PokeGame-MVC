@@ -1,8 +1,27 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model List<PokeGame_MVC.Entities.Pokemon>;
+@{
+    ViewData["Title"] = "Inicio Pokedex";
+
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h2>@ViewData["Title"]</h2>
+
+<input type="text" id="pokemonFilter" class="form-control" placeholder="Buscar por nombre">
+
+<div class="row mt-4" id="pokemonList">
+    @foreach (var pokemon in Model)
+    {
+        <div class="col-md-3 mb-4 pokemon-card" data-name="@pokemon.Name.ToLower()">
+            <div class="card">
+                <img src="@pokemon.Url" class="card-img-top" alt="@pokemon.Name">
+                <div class="card-body">
+                    <h5 class="card-title">@pokemon.Name</h5>
+                </div>
+            </div>
+        </div>
+    }
 </div>
+
+<script>
+    
+</script>

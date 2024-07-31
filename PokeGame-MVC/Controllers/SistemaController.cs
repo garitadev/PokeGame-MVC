@@ -51,7 +51,7 @@ namespace PokeGame_MVC.Controllers
 
                 if (result.Equals("Success"));
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "Home");
                 }
                
             }
