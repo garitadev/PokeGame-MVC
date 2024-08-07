@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using PokeGame_MVC.DAL;
 using PokeGame_MVC.Entities;
 using PokeGame_MVC.Models;
 using System.Collections.Generic;
@@ -29,8 +30,13 @@ namespace PokeGame_MVC.Controllers
         {
             try
             {
-                var response = await _httpClient.GetAsync("https://pokeapi.co/api/v2/pokemon?limit=100");
-                response.EnsureSuccessStatusCode();
+                DalPokedex dal = new(_httpClient);
+
+                var t = await dal.GetFirst200PokemonsAsync();
+
+
+               // var response = await _httpClient.GetAsync("https://pokeapi.co/api/v2/pokemon?limit=100");
+                //response.EnsureSuccessStatusCode();
                 string json = "[{\"name\":\"bulbasaur\",\"url\":\"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png\"},{\"name\":\"ivysaur\",\"url\":\"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png\"},{\"name\":\"venusaur\",\"url\":\"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png\"},{\"name\":\"charmander\",\"url\":\"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png\"},{\"name\":\"charmeleon\",\"url\":\"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png\"},{\"name\":\"charizard\",\"url\":\"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png\"}]";
 
                 //List<Pokemon> pokemons = JsonSerializer.Deserialize<List<Pokemon>>(json);
@@ -41,7 +47,7 @@ namespace PokeGame_MVC.Controllers
 
 
 
-                return View(pokemons);
+                return View(t);
             }
             catch (Exception ex)
             {

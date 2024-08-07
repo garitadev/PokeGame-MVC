@@ -1,21 +1,34 @@
 ﻿@model List<PokeGame_MVC.Entities.Pokemon>;
 @{
-    ViewData["Title"] = "Inicio Pokedex";
+    ViewData["Title"] = "Pokedex";
 
 }
 
-<h2>@ViewData["Title"]</h2>
+<h2>Pokemones disponibles para agregar al Pokedex</h2>
 
 <input type="text" id="pokemonFilter" class="form-control" placeholder="Buscar por nombre">
 
 <div class="row mt-4" id="pokemonList">
     @foreach (var pokemon in Model)
     {
-        <div class="col-md-3 mb-4 pokemon-card" data-name="@pokemon.Name.ToLower()">
+        <div class="col-md-3 mb-4">
             <div class="card">
-                <img src="@pokemon.Url" class="card-img-top" alt="@pokemon.Name">
+
+                    <img src="@pokemon.Sprites.FrontDefault" class="card-img-top" alt="@pokemon.Name">
+
                 <div class="card-body">
-                    <h5 class="card-title">@pokemon.Name</h5>
+                    <h5 class="card-title" data-nombre="@pokemon.Name">@pokemon.Name</h5>
+                    <p class="card-text" data-id="@pokemon.Id"><strong>Number:</strong> @pokemon.Id</p>
+                    <p class="card-text" data-weight="@pokemon.Weight"><strong>Weight:</strong> @pokemon.Weight</p>
+                    <p class="card-text" data-types="@string.Join(",", pokemon.Types.Select(t => t.Type.Name))"><strong>Types:</strong></p>
+                    <ul class="list-unstyled">
+                        @foreach (var type in pokemon.Types)
+                        {
+                            <li>@type.Type.Name</li>
+                        }
+                    </ul>
+                    <btn class="btn btn-primary" data-agregar-pkm>Agregar a la pokedex </btn>
+
                 </div>
             </div>
         </div>
