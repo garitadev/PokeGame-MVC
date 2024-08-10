@@ -22,4 +22,8 @@ public partial class Usuario
     public DateTime FechaCreacion { get; set; }
 
     public string Email { get; set; }
+
+    public virtual ICollection<PokemonUsuario> PokemonUsuario { get; set; } = new List<PokemonUsuario>();
+
+    public virtual Rol Rol { get; set; }
 }

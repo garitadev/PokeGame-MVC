@@ -9,6 +9,8 @@ public partial class Pokedex
 {
     public int Id { get; set; }
 
+    public int IdPokemon { get; set; }
+
     public string Nombre { get; set; }
 
     public string Debilidad { get; set; }
@@ -17,7 +19,9 @@ public partial class Pokedex
 
     public string Evoluciones { get; set; }
 
-    public string Peso { get; set; }
+    public int Peso { get; set; }
 
-    public string Numero { get; set; }
+    public int Numero { get; set; }
+
+    public string Imagen { get; set; }
 }

@@ -5,9 +5,11 @@ using System.Collections.Generic;
 
 namespace PokeGame_MVC.Database.PokeGame;
 
-public partial class Permiso
+public partial class Permisos
 {
     public int Id { get; set; }
 
     public string Nombre { get; set; }
+
+    public virtual ICollection<RolPermiso> RolPermiso { get; set; } = new List<RolPermiso>();
 }

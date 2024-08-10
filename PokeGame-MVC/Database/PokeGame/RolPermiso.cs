@@ -5,13 +5,15 @@ using System.Collections.Generic;
 
 namespace PokeGame_MVC.Database.PokeGame;
 
-public partial class Rol
+public partial class RolPermiso
 {
     public int Id { get; set; }
 
-    public string Nombre { get; set; }
+    public int IdRol { get; set; }
 
-    public virtual ICollection<RolPermiso> RolPermiso { get; set; } = new List<RolPermiso>();
+    public int IdPermiso { get; set; }
 
-    public virtual ICollection<Usuario> Usuario { get; set; } = new List<Usuario>();
+    public virtual Permisos IdPermisoNavigation { get; set; }
+
+    public virtual Rol IdRolNavigation { get; set; }
 }

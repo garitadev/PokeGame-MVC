@@ -1,0 +1,35 @@
+﻿@model PokeGame_MVC.Models.Pokedex.PokedexModel
+
+@{
+    bool editSuccess = TempData["EditSuccess"] != null && (bool)TempData["EditSuccess"];
+
+  
+}
+<div class="container mt-4" data-editsuccess=@editSuccess>
+    <h2>Editar Pokémon</h2>
+    @using (Html.BeginForm("EditarN", "Pokedex", FormMethod.Post))
+    {
+        <div class="form-group">
+            @Html.LabelFor(m => m.Name)
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Nombre" })
+            @Html.ValidationMessageFor(m => m.Name, null, new { @class = "text-danger" })
+        </div>
+        <div class="form-group mt-4">
+            @Html.LabelFor(m => m.Weight)
+            @Html.TextBoxFor(m => m.Weight, new { @class = "form-control", placeholder = "Peso" })
+            @Html.ValidationMessageFor(m => m.Weight, null, new { @class = "text-danger" })
+        </div>
+        <div class="form-group mt-4">
+            @Html.LabelFor(m => m.Types)
+            @Html.TextBoxFor(m => m.Types, new { @class = "form-control", placeholder = "Tipos" })
+            @Html.ValidationMessageFor(m => m.Types, null, new { @class = "text-danger" })
+        </div>
+        <div class="form-group mt-4">
+            @Html.LabelFor(m => m.Imagen)
+            @Html.TextBoxFor(m => m.Imagen, new { @class = "form-control", placeholder = "URL de la Imagen" })
+            @Html.ValidationMessageFor(m => m.Imagen, null, new { @class = "text-danger" })
+        </div>
+        @Html.HiddenFor(m => m.Id)
+        <button type="submit" class="btn btn-primary mt-4">Guardar cambios</button>
+    }
+</div>

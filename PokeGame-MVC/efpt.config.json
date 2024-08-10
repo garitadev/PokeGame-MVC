@@ -6,7 +6,7 @@
    "IncludeConnectionString": false,
    "ModelNamespace": null,
    "OutputContextPath": null,
-   "OutputPath": "Database\/PokeGame",
+   "OutputPath": "Database\/PokeGame\/",
    "PreserveCasingWithRegex": true,
    "ProjectRootNamespace": "PokeGame_MVC",
    "Schemas": null,
@@ -19,7 +19,7 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Permiso]",
+         "Name": "[dbo].[Permisos]",
          "ObjectType": 0
       },
       {
@@ -27,7 +27,19 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[Pokemon]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Pokemon_Usuario]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Rol]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Rol_Permiso]",
          "ObjectType": 0
       },
       {

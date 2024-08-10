@@ -8,20 +8,24 @@ namespace PokeGame_MVC.Database.PokeGame.Context;
 
 public partial class PokeGameContext : DbContext
 {
-    public PokeGameContext() { }
-
     public PokeGameContext(DbContextOptions<PokeGameContext> options)
         : base(options)
     {
     }
+    public PokeGameContext() { }
+    DbSet<Enfermeria> Enfermeria { get; set; }
 
-    public virtual DbSet<Enfermeria> Enfermeria { get; set; }
-
-    public virtual DbSet<Permiso> Permiso { get; set; }
+    public virtual DbSet<Permisos> Permisos { get; set; }
 
     public virtual DbSet<Pokedex> Pokedex { get; set; }
 
+    public virtual DbSet<Pokemon> Pokemon { get; set; }
+
+    public virtual DbSet<PokemonUsuario> PokemonUsuario { get; set; }
+
     public virtual DbSet<Rol> Rol { get; set; }
+
+    public virtual DbSet<RolPermiso> RolPermiso { get; set; }
 
     public virtual DbSet<Usuario> Usuario { get; set; }
 
@@ -41,12 +45,13 @@ public partial class PokeGameContext : DbContext
                 .IsUnicode(false);
         });
 
-        modelBuilder.Entity<Permiso>(entity =>
+        modelBuilder.Entity<Permisos>(entity =>
         {
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Nombre)
                 .IsRequired()
                 .HasMaxLength(50)
-                .IsUnicode(false);
+                .HasColumnName("nombre");
         });
 
         modelBuilder.Entity<Pokedex>(entity =>
@@ -59,15 +64,12 @@ public partial class PokeGameContext : DbContext
                 .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.IdPokemon).HasColumnName("idPokemon");
+            entity.Property(e => e.Imagen)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
             entity.Property(e => e.Nombre)
-                .IsRequired()
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.Numero)
-                .IsRequired()
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.Peso)
                 .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -75,6 +77,35 @@ public partial class PokeGameContext : DbContext
                 .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<Pokemon>(entity =>
+        {
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
+        });
+
+        modelBuilder.Entity<PokemonUsuario>(entity =>
+        {
+            entity.ToTable("Pokemon_Usuario");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.IdPokemon).HasColumnName("idPokemon");
+            entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
+
+            entity.HasOne(d => d.IdPokemonNavigation).WithMany(p => p.PokemonUsuario)
+                .HasForeignKey(d => d.IdPokemon)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Pokemon_Usuario_Pokemon1");
+
+            entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.PokemonUsuario)
+                .HasForeignKey(d => d.IdUsuario)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Pokemon_Usuario_Usuario1");
         });
 
         modelBuilder.Entity<Rol>(entity =>
@@ -85,13 +116,35 @@ public partial class PokeGameContext : DbContext
                 .IsUnicode(false);
         });
 
+        modelBuilder.Entity<RolPermiso>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK_Permiso");
+
+            entity.ToTable("Rol_Permiso");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.IdPermiso).HasColumnName("idPermiso");
+            entity.Property(e => e.IdRol).HasColumnName("idRol");
+
+            entity.HasOne(d => d.IdPermisoNavigation).WithMany(p => p.RolPermiso)
+                .HasForeignKey(d => d.IdPermiso)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Rol_Permiso_Permisos");
+
+            entity.HasOne(d => d.IdRolNavigation).WithMany(p => p.RolPermiso)
+                .HasForeignKey(d => d.IdRol)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Rol_Permiso_Rol");
+        });
+
         modelBuilder.Entity<Usuario>(entity =>
         {
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.FechaCreacion)
+            entity.Property(e => e.Email)
                 .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.FechaCreacion).HasColumnType("date");
             entity.Property(e => e.FotoPerfil).IsUnicode(false);
             entity.Property(e => e.Nombre)
                 .IsRequired()
@@ -99,12 +152,16 @@ public partial class PokeGameContext : DbContext
                 .IsFixedLength();
             entity.Property(e => e.PasswordHash)
                 .IsRequired()
-                .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Username)
                 .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false);
+
+            entity.HasOne(d => d.Rol).WithMany(p => p.Usuario)
+                .HasForeignKey(d => d.RolId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Usuario_Rol");
         });
 
         OnModelCreatingPartial(modelBuilder);

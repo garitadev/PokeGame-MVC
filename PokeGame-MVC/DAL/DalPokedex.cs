@@ -18,7 +18,7 @@ namespace PokeGame_MVC.DAL
             {
                 var tasks = new List<Task<Pokemon>>();
 
-                for (int i = 1; i <= 200; i++)
+                for (int i = 1; i <= 20; i++)
                 {
                     tasks.Add(GetPokemonDataAsync(i));
                 }

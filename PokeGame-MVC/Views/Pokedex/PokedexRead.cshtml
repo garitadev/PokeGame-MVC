@@ -1,0 +1,22 @@
+﻿@model IEnumerable<PokeGame_MVC.Models.Pokedex.PokedexModel>;
+
+<div class="container mt-4">
+    <div class="row">
+        @foreach (var pokemon in Model)
+        {
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <img class="card-img-top" src="@pokemon.Imagen" alt="@pokemon.Name">
+                    <div class="card-body">
+                        <h5 class="card-title">@pokemon.Name</h5>
+                        <p class="card-text">Peso: @pokemon.Weight</p>
+                        <p class="card-text">Tipos: @string.Join(", ", pokemon.Types)</p>
+                        <a href="/Pokedex/Editar/@pokemon.Id" class="btn btn-primary">Editar</a>
+                        <a href="/Pokedex/Delete/@pokemon.Id" class="btn btn-danger">Eliminar</a>
+                        <a href="/Pokedex/Details/@pokemon.Id" class="btn btn-info">Detalles</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -2,47 +2,60 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
-document.getElementById('pokemonFilter').addEventListener('input', function () {
+/*document.getElementById('pokemonFilter').addEventListener('input', function () {
     var filter = this.value.toLowerCase();
     var cards = document.querySelectorAll('.pokemon-card');
 
     cards.forEach(function (card) {
-        if (card.getAttribute('data-name').includes(filter)) {
-            card.style.display = 'block';
-        } else {
-            card.style.display = 'none';
-        }
+        var cardName = card.getAttribute('data-name').toLowerCase();
+        card.style.display = cardName.includes(filter) ? 'block' : 'none';
+    });
+});*/
+
+$("body").on("click", "[data-pokedit]", function () {
+    var pokeditData = $('#pokedit').data('pokedit');
+    Swal.fire({
+        title: 'Mensaje: ' + pokeditData,
+        text: 'El Pokémon ha sido editado correctamente.',
+        icon: 'success',
+        confirmButtonText: 'Aceptar'
     });
 });
 
-
-$("body").on("click", "[data-agregar-pkm]", function (e) {
+$("body").on("click", "[data-agregar-pkm]", function () {
     var card = $(this).closest('.card-body');
-    var pokemon = {
-        Name: card.find('.card-title').data('nombre'),
-        Id: card.find('.card-text[data-id]').data('id'),
-        Weight: card.find('.card-text[data-weight]').data('weight'),
-        Types: card.find('.card-text[data-types]').data('types')
+    var pokemonData = {
+        name: card.find('.card-title').data('nombre') || '',
+        id: card.find('.card-text[data-id]').data('id') || 0,
+        weight: card.find('.card-text[data-weight]').data('weight') || 0,
+        types: card.find('.card-text[data-types]').data('types')
     };
 
-
-    console.log(pokemon)
-
     $.ajax({
-        url: '/TuControlador/TuAccion',
+        url: '/Pokedex/AgregarPokemon',
         type: 'POST',
         contentType: 'application/json',
-        data: JSON.stringify(pokemon),
-        success: function (response) {
-            alert('Pokemon agregado a la pokedex!');
+        dataType: 'json',
+        data: JSON.stringify({ pokemon: pokemonData }),
+        success: function () {
+            alert('¡Pokémon agregado a la Pokédex!');
         },
         error: function (xhr, status, error) {
             alert('Ocurrió un error: ' + error);
         }
     });
+});
 
-    console.log(pokemon)
-})
-$('[data-agregar-pkm]').on('click', function () {
-    
+$(document).ready(function () {
+    var container = document.querySelector('.container[data-editsuccess]');
+    var isSuccess = container.getAttribute('data-editsuccess') === 'True';
+
+    if (isSuccess) {
+        Swal.fire({
+            icon: 'success',
+            title: 'Registro editado',
+            text: 'El Pokémon ha sido editado correctamente.',
+            confirmButtonText: 'Aceptar'
+        });
+    }
 });
