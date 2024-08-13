@@ -4,6 +4,7 @@ namespace PokeGame_MVC.Models
 {
     public class UsuarioModel
     {
+        public int Id { get; set; }
         public int RolId { get; set; }
         public string Nombre { get; set; }
         //[Required(ErrorMessage = "La contraseña es requerida")]

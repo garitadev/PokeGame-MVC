@@ -112,8 +112,16 @@ namespace PokeGame_MVC.Controllers
         }
 
 
-        public IActionResult Delete(int id) {
+        [HttpPost]
+        public IActionResult Eliminar(int id)
+        {
+            var usuario = DbContext.Usuario.Find(id);
 
+            if (usuario != null)
+            {
+                DbContext.Usuario.Remove(usuario);
+                DbContext.SaveChangesAsync();
+            }
             return Ok();
         }
 
@@ -124,6 +132,7 @@ namespace PokeGame_MVC.Controllers
             
             var usuarios = DbContext.Usuario.Select(t => new UsuarioModel
             {
+                Id = t.Id,
                 RolId = t.RolId,
                 Email = t.Email,
                 FechaCreacion = t.FechaCreacion,

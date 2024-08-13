@@ -12,6 +12,40 @@
     });
 });*/
 
+$("body").on("click", "[data-usuariodelete]", function ()
+{
+
+    Swal.fire({
+        title: "Estás seguro de eliminar este usuario?",
+        text: "El usuario será eliminado!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Eliminar!"
+    }).then((result) => {
+
+
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '/Pokedex/Eliminar',
+                type: 'POST',
+                data: { id: pokeditData },
+                success: function () {
+                    Swal.fire({
+                        title: "Elimnado!",
+                        text: "El pokemon ha sido eliminado.",
+                        icon: "success"
+                    });
+                },
+                error: function (xhr, status, error) {
+                    alert('Ocurrió un error: ' + error);
+                }
+            });
+        }
+    });
+
+});
 $("body").on("click", "[data-pokedelete]", function ()
 {
     //var pokeditData = $('#pokedelete').data('pokedelete');
