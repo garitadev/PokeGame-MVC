@@ -75,7 +75,6 @@ namespace PokeGame_MVC.Controllers
             if (edit == true)
             {
                 TempData["EditSuccess"] = true;
-
             }
 
             // var id = 1;
@@ -95,7 +94,6 @@ namespace PokeGame_MVC.Controllers
         [HttpPost]
         public ActionResult EditarN(PokedexModel model)
         {
-
             // Lógica para editar el Pokemon
             var pokemon = DbContext.Pokedex.Find(model.Id);
             if (pokemon == null)
@@ -114,6 +112,19 @@ namespace PokeGame_MVC.Controllers
 
             return RedirectToAction("Editar", new { id = model.Id, edit = true});
 
+        }
+
+        [HttpPost]
+        public IActionResult Eliminar(int id)
+        {
+            var pokedex =  DbContext.Pokedex.Find(id);
+
+            if (pokedex != null)
+            {
+                DbContext.Pokedex.Remove(pokedex);
+                DbContext.SaveChangesAsync();
+            }
+            return Ok();
         }
 
     }

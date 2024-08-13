@@ -12,6 +12,45 @@
     });
 });*/
 
+$("body").on("click", "[data-pokedelete]", function ()
+{
+    //var pokeditData = $('#pokedelete').data('pokedelete');
+    var pokeditData = $(this).data('pokedelete');
+    console.log(pokeditData)
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+
+        
+        if (result.isConfirmed) {
+            return;
+            $.ajax({
+                url: '/Pokedex/Eliminar',
+                type: 'POST',
+                data: { id: pokeditData },
+                success: function () {
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Your file has been deleted.",
+                        icon: "success"
+                    });
+                },
+                error: function (xhr, status, error) {
+                    alert('Ocurrió un error: ' + error);
+                }
+            });
+        }
+    });
+
+});
+
+
 $("body").on("click", "[data-pokedit]", function () {
     var pokeditData = $('#pokedit').data('pokedit');
     Swal.fire({
@@ -48,14 +87,20 @@ $("body").on("click", "[data-agregar-pkm]", function () {
 
 $(document).ready(function () {
     var container = document.querySelector('.container[data-editsuccess]');
-    var isSuccess = container.getAttribute('data-editsuccess') === 'True';
 
-    if (isSuccess) {
-        Swal.fire({
-            icon: 'success',
-            title: 'Registro editado',
-            text: 'El Pokémon ha sido editado correctamente.',
-            confirmButtonText: 'Aceptar'
-        });
+    //EDITAR
+    if (container != null) {
+        var isSuccess = container.getAttribute('data-editsuccess') === 'True';
+
+        if (isSuccess) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Registro editado',
+                text: 'El Pokémon ha sido editado correctamente.',
+                confirmButtonText: 'Aceptar'
+            });
+        }
     }
+    
 });
+

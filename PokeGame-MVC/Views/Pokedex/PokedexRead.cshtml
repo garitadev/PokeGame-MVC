@@ -12,7 +12,7 @@
                         <p class="card-text">Peso: @pokemon.Weight</p>
                         <p class="card-text">Tipos: @string.Join(", ", pokemon.Types)</p>
                         <a href="/Pokedex/Editar/@pokemon.Id" class="btn btn-primary">Editar</a>
-                        <a href="/Pokedex/Delete/@pokemon.Id" class="btn btn-danger">Eliminar</a>
+                        <a data-pokedelete="@pokemon.Id" class="btn btn-danger pokedelete">Eliminar</a>
                         <a href="/Pokedex/Details/@pokemon.Id" class="btn btn-info">Detalles</a>
                     </div>
                 </div>
