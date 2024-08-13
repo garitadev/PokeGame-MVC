@@ -18,26 +18,25 @@ $("body").on("click", "[data-pokedelete]", function ()
     var pokeditData = $(this).data('pokedelete');
     console.log(pokeditData)
     Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
+        title: "Estás seguro de eliminar este pokemon?",
+        text: "El pokemon se eliminará de la pokedex!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
+        confirmButtonText: "Eliminar!"
     }).then((result) => {
 
         
         if (result.isConfirmed) {
-            return;
             $.ajax({
                 url: '/Pokedex/Eliminar',
                 type: 'POST',
                 data: { id: pokeditData },
                 success: function () {
                     Swal.fire({
-                        title: "Deleted!",
-                        text: "Your file has been deleted.",
+                        title: "Elimnado!",
+                        text: "El pokemon ha sido eliminado.",
                         icon: "success"
                     });
                 },
