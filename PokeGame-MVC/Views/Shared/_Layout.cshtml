@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/PokeGame_MVC.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+
+
+
     @* <link href="~/lib/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet"> *@
 
 </head>
@@ -34,7 +39,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Pokedex" asp-action="PokedexRead">Pokedex</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Administracion</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Sistema" asp-action="Listar">Administracion</a>
                         </li>
                     </ul>
                 </div>
@@ -55,6 +60,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @* <script src="~/lib/sweetalert2/dist/sweetalert2.all.min.js"></script> *@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @await RenderSectionAsync("Scripts", required: false)

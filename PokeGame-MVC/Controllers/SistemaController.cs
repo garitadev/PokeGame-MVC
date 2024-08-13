@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using PokeGame_MVC.Database;
 using PokeGame_MVC.Database.PokeGame;
-using PokeGame_MVC.Entities;
+using PokeGame_MVC.Models;
 using System.Data;
 
 namespace PokeGame_MVC.Controllers
@@ -69,7 +69,6 @@ namespace PokeGame_MVC.Controllers
         //[Route("/Ingresar")]
         public ActionResult Registrar(UsuarioModel usuario)
         {
-
             //Validar que el usuario no extista
             var usuarioExisten = DbContext.Usuario.Where(t => t.Username == usuario.Username).Select(t => t.Username).FirstOrDefault();
             var existeEmail= DbContext.Usuario.Where(t => t.Email == usuario.Email).Select(t => t.Email).FirstOrDefault();
@@ -103,6 +102,37 @@ namespace PokeGame_MVC.Controllers
             DbContext.SaveChanges();
 
             return RedirectToAction("Ingresar");
+        }
+
+        public IActionResult Editar(UsuarioModel usuario)
+        {
+
+
+            return View();
+        }
+
+
+        public IActionResult Delete(int id) {
+
+            return Ok();
+        }
+
+
+        [HttpGet]
+        public IActionResult Listar()
+        {
+            
+            var usuarios = DbContext.Usuario.Select(t => new UsuarioModel
+            {
+                RolId = t.RolId,
+                Email = t.Email,
+                FechaCreacion = t.FechaCreacion,
+                Nombre = t.Nombre,
+                Username = t.Username,
+            }).ToList();
+
+
+            return View(usuarios);
         }
     }
 }

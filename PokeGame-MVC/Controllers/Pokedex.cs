@@ -62,8 +62,6 @@ namespace PokeGame_MVC.Controllers
                 Imagen = t.Imagen,
             }).ToList();
 
-            var t = pokemones;
-
             return View(pokemones);
         }
 

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace PokeGame_MVC.Entities
+namespace PokeGame_MVC.Models
 {
     public class UsuarioModel
     {

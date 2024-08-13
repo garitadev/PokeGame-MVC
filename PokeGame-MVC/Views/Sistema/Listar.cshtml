@@ -1,0 +1,41 @@
+﻿@model IEnumerable<PokeGame_MVC.Models.UsuarioModel>
+
+<div class="container mt-5">
+    <h2>Lista de Usuarios</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Rol ID</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Username</th>
+                <th>Fecha de Creación</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var usuario in Model)
+            {
+                <tr>
+                    <td>@usuario.RolId</td>
+                    <td>@usuario.Nombre</td>
+                    <td>@usuario.Email</td>
+                    <td>@usuario.Username</td>
+                    <td>@usuario.FechaCreacion.ToString("dd/MM/yyyy")</td>
+                    <td>
+                        <a href="@Url.Action("Ver", "Usuario", new { id = usuario.RolId })" class="btn btn-info btn-sm">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        <a href="@Url.Action("Editar", "Usuario", new { id = usuario.RolId })" class="btn btn-warning btn-sm">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="@Url.Action("Eliminar", "Usuario", new { id = usuario.RolId })" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
