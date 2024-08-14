@@ -1,41 +1,38 @@
-﻿@model IEnumerable<PokeGame_MVC.Models.UsuarioModel>
+﻿@model PokeGame_MVC.Models.UsuarioModel
 
-<div class="container mt-5">
-    <h2>Lista de Usuarios</h2>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Rol ID</th>
-                <th>Nombre</th>
-                <th>Email</th>
-                <th>Username</th>
-                <th>Fecha de Creación</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var usuario in Model)
-            {
-                <tr>
-                    <td>@usuario.RolId</td>
-                    <td>@usuario.Nombre</td>
-                    <td>@usuario.Email</td>
-                    <td>@usuario.Username</td>
-                    <td>@usuario.FechaCreacion.ToString("dd/MM/yyyy")</td>
-                    <td>
-                        <a href="@Url.Action("Ver", "Usuario", new { id = usuario.RolId })" class="btn btn-info btn-sm">
-                            <i class="fas fa-eye"></i>
-                        </a>
-                        <a href="@Url.Action("Editar", "Usuario", new { id = usuario.RolId })" class="btn btn-warning btn-sm">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <a href="@Url.Action("Eliminar", "Usuario", new { id = usuario.RolId })" class="btn btn-danger btn-sm">
-                            <i class="fas fa-trash"></i>
-                        </a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+@{
+    bool editSuccess = TempData["EditSuccess"] != null && (bool)TempData["EditSuccess"];
+
+    if (editSuccess)
+    {
+        
+    }
+}
+<div class="container mt-4" data-editsuccess=@editSuccess>
+    <h2>Editar Usuario</h2>
+    @using (Html.BeginForm("EditarUsuario", "Sistema", FormMethod.Post))
+    {
+        <div class="form-group">
+            @Html.LabelFor(m => m.Nombre)
+            @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control", placeholder = "Nombre" })
+            @Html.ValidationMessageFor(m => m.Nombre, null, new { @class = "text-danger" })
+        </div>
+        <div class="form-group mt-4">
+            @Html.LabelFor(m => m.Email)
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
+            @Html.ValidationMessageFor(m => m.Email, null, new { @class = "text-danger" })
+        </div>
+        <div class="form-group mt-4">
+            @Html.LabelFor(m => m.Username)
+            @Html.TextBoxFor(m => m.Username, new { @class = "form-control", placeholder = "Username" })
+            @Html.ValidationMessageFor(m => m.Username, null, new { @class = "text-danger" })
+        </div>
+        <div class="form-group mt-4">
+            @Html.LabelFor(m => m.RolId)
+            @Html.TextBoxFor(m => m.RolId, new { @class = "form-control", placeholder = "Rol Id" })
+            @Html.ValidationMessageFor(m => m.RolId, null, new { @class = "text-danger" })
+        </div>
+        @Html.HiddenFor(m => m.Id)
+        <button type="submit" class="btn btn-primary mt-4">Guardar cambios</button>
+    }
 </div>
-

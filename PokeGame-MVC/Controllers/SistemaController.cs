@@ -104,12 +104,47 @@ namespace PokeGame_MVC.Controllers
             return RedirectToAction("Ingresar");
         }
 
-        public IActionResult Editar(UsuarioModel usuario)
+        [HttpGet]
+        [Route("/Sistemas/Editar/{id}")]
+
+        public IActionResult Editar(int id, bool? edit = false)
         {
+            if (edit == true)
+            {
+                TempData["EditSuccess"] = true;
+            }
 
+            var usuario = DbContext.Usuario.Where(t => t.Id == id).Select(t => new UsuarioModel
+            {
+                RolId = t.RolId,
+                Email = t.Email,
+                Username = t.Username,
+                Nombre = t.Nombre,
+                FechaCreacion = t.FechaCreacion
+            }).FirstOrDefault();
 
-            return View();
+            return View(usuario);
         }
+        [HttpPost]
+        public IActionResult EditarUsuario(UsuarioModel model)
+        {
+            var usuario = DbContext.Usuario.Find(model.Id);
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+
+            usuario.Nombre = model.Nombre ?? usuario.Nombre;
+            usuario.Username = model.Username ?? usuario.Username;
+            usuario.Email = model.Email ?? usuario.Email;
+            usuario.RolId = usuario.RolId;
+
+            DbContext.Update(usuario);
+            DbContext.SaveChanges();
+
+            return RedirectToAction("Editar", new { id = model.Id, edit = true });
+        }
+
 
 
         [HttpPost]

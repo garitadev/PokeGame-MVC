@@ -14,6 +14,7 @@
 
 $("body").on("click", "[data-usuariodelete]", function ()
 {
+    var usuariodata = $(this).data('usuariodelete');
 
     Swal.fire({
         title: "Estás seguro de eliminar este usuario?",
@@ -28,13 +29,13 @@ $("body").on("click", "[data-usuariodelete]", function ()
 
         if (result.isConfirmed) {
             $.ajax({
-                url: '/Pokedex/Eliminar',
+                url: '/Sistema/Eliminar',
                 type: 'POST',
-                data: { id: pokeditData },
+                data: { id: usuariodata },
                 success: function () {
                     Swal.fire({
                         title: "Elimnado!",
-                        text: "El pokemon ha sido eliminado.",
+                        text: "El usuario ha sido eliminado.",
                         icon: "success"
                     });
                 },
@@ -102,15 +103,21 @@ $("body").on("click", "[data-agregar-pkm]", function () {
         weight: card.find('.card-text[data-weight]').data('weight') || 0,
         types: card.find('.card-text[data-types]').data('types')
     };
-
+    console.log(pokemonData)
+    //return
     $.ajax({
         url: '/Pokedex/AgregarPokemon',
         type: 'POST',
         contentType: 'application/json',
         dataType: 'json',
-        data: JSON.stringify({ pokemon: pokemonData }),
+        data: JSON.stringify( pokemonData ),
         success: function () {
-            alert('¡Pokémon agregado a la Pokédex!');
+            Swal.fire({
+                icon: 'success',
+                title: 'Pokemon Agregado',
+                text: 'El Pokémon ha sido agregado correctamente.',
+                confirmButtonText: 'Aceptar'
+            });
         },
         error: function (xhr, status, error) {
             alert('Ocurrió un error: ' + error);
@@ -129,7 +136,7 @@ $(document).ready(function () {
             Swal.fire({
                 icon: 'success',
                 title: 'Registro editado',
-                text: 'El Pokémon ha sido editado correctamente.',
+                text: 'El registro ha sido editado correctamente.',
                 confirmButtonText: 'Aceptar'
             });
         }

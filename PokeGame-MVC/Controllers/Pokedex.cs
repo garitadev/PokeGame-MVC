@@ -30,6 +30,7 @@ namespace PokeGame_MVC.Controllers
         {
             if (pokemon is not null && pokemon?.Id != 0)
             {
+
                 PokeGame_MVC.Database.PokeGame.Pokedex pokemonNew = new PokeGame_MVC.Database.PokeGame.Pokedex()
                 {
                     IdPokemon = pokemon.Id,
@@ -46,7 +47,8 @@ namespace PokeGame_MVC.Controllers
             }
 
 
-            return Ok();
+            return Json(new { success = true, message = "¡Pokémon agregado a la Pokédex!" });
+
         }
 
 
@@ -92,7 +94,6 @@ namespace PokeGame_MVC.Controllers
         [HttpPost]
         public ActionResult EditarN(PokedexModel model)
         {
-            // Lógica para editar el Pokemon
             var pokemon = DbContext.Pokedex.Find(model.Id);
             if (pokemon == null)
             {

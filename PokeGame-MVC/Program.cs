@@ -29,6 +29,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Sistema}/{action=Listar}");
+    pattern: "{controller=Sistema}/{action=Ingresar}");
 
 app.Run();
