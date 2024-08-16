@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using PokeGame_MVC.Database;
+using PokeGame_MVC.Database.PokeGame;
+using PokeGame_MVC.Models.Pokedex;
+using System.Security.Claims;
 namespace PokeGame_MVC.Controllers
 {
     public class EntrenadorController : Controller
@@ -8,7 +11,20 @@ namespace PokeGame_MVC.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly HttpClient _httpClient;
 
+        private PokeGameContext _dbContext;
 
+        public Database.PokeGameContext DbContext
+        {
+            get
+            {
+                _dbContext ??= new Database.PokeGameContext();
+                return _dbContext;
+            }
+            set
+            {
+                _dbContext = value;
+            }
+        }
 
         public EntrenadorController(ILogger<HomeController> logger, HttpClient httpClient)
         {
@@ -23,35 +39,54 @@ namespace PokeGame_MVC.Controllers
 
 
         [HttpPost]
-        public IActionResult AgregarPokemon(int PokemonId)
+        // [Route("/Entrenador/AgregarPokemon/{id}")]
+
+        public IActionResult AgregarPokemon(int id)
         {
             var usuarioId = GetCurrentUserId();
 
             // Verifica si ya tiene el Pokémon en su equipo
-            var yaEnEquipo = _context.Equipos.Any(e => e.UsuarioId == usuarioId && e.PokemonId == PokemonId);
+            var yaEnEquipo = DbContext.Equipos.Any(e => e.UsuarioId == usuarioId && e.PokedexId == id);
             if (yaEnEquipo)
             {
                 ModelState.AddModelError("", "Ya tienes este Pokémon en tu equipo.");
                 return View(); // Regresa a la vista con el error
             }
 
-            
 
-            var equipo = new Equipo
+
+            var equipo = new Equipos
             {
                 UsuarioId = usuarioId,
-                PokemonId = PokemonId
+                PokedexId = id
             };
 
-            _context.Equipos.Add(equipo);
-            _context.SaveChanges();
+            DbContext.Equipos.Add(equipo);
+            DbContext.SaveChanges();
 
             return RedirectToAction("MiEquipo");
         }
         public IActionResult MiEquipo()
         {
+            var usuarioId = GetCurrentUserId();
+            var equipo = DbContext.Equipos
+                .Where(e => e.UsuarioId == usuarioId)
+                .Include(e => e.Pokedex) // Esto asume que tienes una relación de navegación en el modelo
+                .Select(e => new PokedexModel
+                {
+                    Name = e.Pokedex.Nombre,
+                    Id = e.Pokedex.Id,
+                    Weight = e.Pokedex.Peso,
+                    Types = e.Pokedex.Tipo,
+                    Imagen = e.Pokedex.Imagen
+                }).ToList();
 
-            return View();
+            return View(equipo);
+        }
+
+        private int GetCurrentUserId()
+        {
+            return int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
         }
     }
 }

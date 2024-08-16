@@ -8,11 +8,20 @@
                 <div class="card mb-4">
                     <img class="card-img-top" src="@pokemon.Imagen" alt="@pokemon.Name">
                     <div class="card-body">
+                        <input type="hidden" class="pokedex-id" value="@pokemon.Id" />
                         <h5 class="card-title">@pokemon.Name</h5>
                         <p class="card-text">Peso: @pokemon.Weight</p>
                         <p class="card-text">Tipos: @string.Join(", ", pokemon.Types)</p>
-                        <a href="/Pokedex/Editar/@pokemon.Id" class="btn btn-primary">Editar</a>
-                        <a data-pokedelete="@pokemon.Id" class="btn btn-danger pokedelete">Eliminar</a>
+                        @if (User.IsInRole("1"))
+                        {
+                            <a href="/Pokedex/Editar/@pokemon.Id" class="btn btn-primary">Editar</a>
+                            <a data-pokedelete="@pokemon.Id" class="btn btn-danger pokedelete">Eliminar</a>
+                        }
+
+                        @if (User.IsInRole("2"))
+                        {
+                            <button data-agregar-equipo="@pokemon.Id" class="btn btn-primary equipoAgregar">Agregar a mi equipo</button>
+                        }
                     </div>
                 </div>
             </div>

@@ -23,7 +23,15 @@ public partial class Usuario
 
     public string Email { get; set; }
 
-    public virtual ICollection<PokemonUsuario> PokemonUsuario { get; set; } = new List<PokemonUsuario>();
+    public virtual ICollection<Equipos> Equipos { get; set; } = new List<Equipos>();
+
+    public virtual ICollection<Mensajes> MensajesDestinatario { get; set; } = new List<Mensajes>();
+
+    public virtual ICollection<Mensajes> MensajesRemitente { get; set; } = new List<Mensajes>();
+
+    public virtual ICollection<Retos> RetosRetado { get; set; } = new List<Retos>();
+
+    public virtual ICollection<Retos> RetosRetador { get; set; } = new List<Retos>();
 
     public virtual Rol Rol { get; set; }
 }

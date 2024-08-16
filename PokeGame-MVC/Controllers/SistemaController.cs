@@ -46,7 +46,7 @@ namespace PokeGame_MVC.Controllers
         //[Route("/Ingresar")]
         public async Task<IActionResult> Ingresar(UsuarioModel usuario)
         {
-            var usuarioExiste = DbContext.Usuario.Where(t => t.Email == usuario.Email).Select(t => new { t.PasswordHash, t.Nombre, t.RolId }).FirstOrDefault();
+            var usuarioExiste = DbContext.Usuario.Where(t => t.Email == usuario.Email).Select(t => new { t.PasswordHash, t.Nombre, t.RolId, t.Id}).FirstOrDefault();
 
             if (usuarioExiste != null)
             {
@@ -57,7 +57,9 @@ namespace PokeGame_MVC.Controllers
                 {
                     var claims = new List<Claim>
                     {
+
                         new Claim(ClaimTypes.Name, usuarioExiste.Nombre),
+                        new Claim(ClaimTypes.NameIdentifier, usuarioExiste.Id.ToString()),
                         new Claim(ClaimTypes.Role, usuarioExiste.RolId.ToString()) // Asigna un rol desde tu base de datos
                     };
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

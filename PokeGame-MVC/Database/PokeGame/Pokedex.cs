@@ -24,4 +24,10 @@ public partial class Pokedex
     public int Numero { get; set; }
 
     public string Imagen { get; set; }
+
+    public virtual ICollection<Equipos> Equipos { get; set; } = new List<Equipos>();
+
+    public virtual ICollection<Retos> RetosRetadoPokemon { get; set; } = new List<Retos>();
+
+    public virtual ICollection<Retos> RetosRetadorPokemon { get; set; } = new List<Retos>();
 }

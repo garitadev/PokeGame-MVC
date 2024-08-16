@@ -1,0 +1,34 @@
+﻿@model IEnumerable<PokeGame_MVC.Models.RetoModel>
+
+    @{
+    var T = ViewBag.ListaRestos;
+    if (T is not null)
+    {
+        
+    }
+    }
+<h2>Mis Retos Pendientes</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Retador</th>
+            <th>Fecha de Envío</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var reto in Model)
+        {
+            <tr>
+                <td>@reto.Retador.Username</td>
+                <td>@reto.FechaEnvio.ToString("g")</td>
+                <td>
+                    <form method="post" asp-action="ResponderReto" asp-route-retoId="@reto.RetoId">
+                        <button type="submit" name="respuesta" value="Aceptado">Aceptar</button>
+                        <button type="submit" name="respuesta" value="Rechazado">Rechazar</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

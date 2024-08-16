@@ -13,7 +13,13 @@ public partial class Enfermeria
 
     public int UsuarioAtiendeId { get; set; }
 
+    public int PokemonId { get; set; }
+
     public string Estado { get; set; }
 
     public string Descripcion { get; set; }
+
+    public virtual Pokedex Pokemon { get; set; }
+
+    public virtual Usuario UsuarioSolicita { get; set; }
 }

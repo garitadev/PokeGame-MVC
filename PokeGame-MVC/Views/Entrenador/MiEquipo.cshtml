@@ -1,0 +1,67 @@
+﻿@model IEnumerable<PokeGame_MVC.Models.Pokedex.PokedexModel>;
+
+<h2>Mi Equipo</h2>
+<a class="" asp-area="" asp-controller="Retos" asp-action="EnviarReto">Enviar Reto</a>
+
+<div class="equipo-container">
+    @foreach (var pokemon in Model)
+    {
+        <div class="pokemon-card">
+            <div class="pokemon-header">
+                <h3>@pokemon.Name</h3>
+                <span>N.º @pokemon.Id</span>
+            </div>
+            <div class="pokemon-body">
+                <p><strong>Tipo:</strong> @pokemon.Types.ToString()</p>
+                <p><strong>Debilidad:</strong> </p>
+                <p><strong>Evoluciones:</strong>  "Ninguna"</p>
+                <p><strong>Peso:</strong> @pokemon.Weight kg</p>
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    .equipo-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .pokemon-card {
+        background-color: #f5f5f5;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        width: 250px;
+        text-align: center;
+    }
+
+    .pokemon-header {
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+    }
+
+    .pokemon-header h3 {
+        margin: 0;
+        font-size: 1.5em;
+        color: #333;
+    }
+
+    .pokemon-header span {
+        font-size: 0.9em;
+        color: #777;
+    }
+
+    .pokemon-body p {
+        margin: 5px 0;
+        font-size: 1em;
+        color: #555;
+    }
+
+    .pokemon-body p strong {
+        color: #333;
+    }
+</style>

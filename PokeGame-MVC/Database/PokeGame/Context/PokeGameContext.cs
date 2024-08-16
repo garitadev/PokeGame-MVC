@@ -8,20 +8,26 @@ namespace PokeGame_MVC.Database.PokeGame.Context;
 
 public partial class PokeGameContext : DbContext
 {
+    public PokeGameContext()
+    {
+        
+    }
     public PokeGameContext(DbContextOptions<PokeGameContext> options)
         : base(options)
     {
     }
-    public PokeGameContext() { }
-    DbSet<Enfermeria> Enfermeria { get; set; }
+
+    public virtual DbSet<Enfermeria> Enfermeria { get; set; }
+
+    public virtual DbSet<Equipos> Equipos { get; set; }
+
+    public virtual DbSet<Mensajes> Mensajes { get; set; }
 
     public virtual DbSet<Permisos> Permisos { get; set; }
 
     public virtual DbSet<Pokedex> Pokedex { get; set; }
 
-    public virtual DbSet<Pokemon> Pokemon { get; set; }
-
-    public virtual DbSet<PokemonUsuario> PokemonUsuario { get; set; }
+    public virtual DbSet<Retos> Retos { get; set; }
 
     public virtual DbSet<Rol> Rol { get; set; }
 
@@ -43,6 +49,50 @@ public partial class PokeGameContext : DbContext
                 .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
+
+            entity.HasOne(d => d.Pokemon).WithMany()
+                .HasForeignKey(d => d.PokemonId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Enfermeria_Pokedex");
+
+            entity.HasOne(d => d.UsuarioSolicita).WithMany()
+                .HasForeignKey(d => d.UsuarioSolicitaId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Enfermeria_Usuario");
+        });
+
+        modelBuilder.Entity<Equipos>(entity =>
+        {
+            entity.HasOne(d => d.Pokedex).WithMany(p => p.Equipos)
+                .HasForeignKey(d => d.PokedexId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Equipos_Pokedex");
+
+            entity.HasOne(d => d.Usuario).WithMany(p => p.Equipos)
+                .HasForeignKey(d => d.UsuarioId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Equipos_Usuario");
+        });
+
+        modelBuilder.Entity<Mensajes>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Mensajes__FEA0555F28E32824");
+
+            entity.Property(e => e.Contenido).IsRequired();
+            entity.Property(e => e.FechaEnvio)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+
+            entity.HasOne(d => d.Destinatario).WithMany(p => p.MensajesDestinatario)
+                .HasForeignKey(d => d.DestinatarioId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Mensajes_DestinatarioId");
+
+            entity.HasOne(d => d.Remitente).WithMany(p => p.MensajesRemitente)
+                .HasForeignKey(d => d.RemitenteId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Mensajes_RemitenteId");
         });
 
         modelBuilder.Entity<Permisos>(entity =>
@@ -67,7 +117,7 @@ public partial class PokeGameContext : DbContext
             entity.Property(e => e.IdPokemon).HasColumnName("idPokemon");
             entity.Property(e => e.Imagen)
                 .IsRequired()
-                .HasMaxLength(50)
+                .HasMaxLength(500)
                 .IsUnicode(false);
             entity.Property(e => e.Nombre)
                 .IsRequired()
@@ -79,33 +129,35 @@ public partial class PokeGameContext : DbContext
                 .IsUnicode(false);
         });
 
-        modelBuilder.Entity<Pokemon>(entity =>
+        modelBuilder.Entity<Retos>(entity =>
         {
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
-            entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
-        });
+            entity.HasKey(e => e.RetoId).HasName("PK__Retos__8D02CD4BDFA4E386");
 
-        modelBuilder.Entity<PokemonUsuario>(entity =>
-        {
-            entity.ToTable("Pokemon_Usuario");
+            entity.Property(e => e.Estado)
+                .IsRequired()
+                .HasMaxLength(20);
+            entity.Property(e => e.FechaEnvio)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.FechaRespuesta).HasColumnType("datetime");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
-            entity.Property(e => e.IdPokemon).HasColumnName("idPokemon");
-            entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
-
-            entity.HasOne(d => d.IdPokemonNavigation).WithMany(p => p.PokemonUsuario)
-                .HasForeignKey(d => d.IdPokemon)
+            entity.HasOne(d => d.Retado).WithMany(p => p.RetosRetado)
+                .HasForeignKey(d => d.RetadoId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Pokemon_Usuario_Pokemon1");
+                .HasConstraintName("FK_Retos_RetadoId");
 
-            entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.PokemonUsuario)
-                .HasForeignKey(d => d.IdUsuario)
+            entity.HasOne(d => d.RetadoPokemon).WithMany(p => p.RetosRetadoPokemon)
+                .HasForeignKey(d => d.RetadoPokemonId)
+                .HasConstraintName("FK_Retos_RetadoPokemonId");
+
+            entity.HasOne(d => d.Retador).WithMany(p => p.RetosRetador)
+                .HasForeignKey(d => d.RetadorId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Pokemon_Usuario_Usuario1");
+                .HasConstraintName("FK_Retos_RetadorId");
+
+            entity.HasOne(d => d.RetadorPokemon).WithMany(p => p.RetosRetadorPokemon)
+                .HasForeignKey(d => d.RetadorPokemonId)
+                .HasConstraintName("FK_Retos_RetadorPokemonId");
         });
 
         modelBuilder.Entity<Rol>(entity =>

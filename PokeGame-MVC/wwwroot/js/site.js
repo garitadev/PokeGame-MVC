@@ -95,6 +95,31 @@ $("body").on("click", "[data-pokedit]", function () {
     });
 });
 
+
+$("body").on("click", "[data-agregar-equipo]", function () {
+
+    var pokedexId = $(this).closest('.card').find('.pokedex-id').val();
+    console.log(pokedexId)
+    
+    //return
+    $.ajax({
+        url: '/Entrenador/AgregarPokemon',
+        type: 'POST',
+        data: { id: pokedexId },
+        success: function () {
+            Swal.fire({
+                icon: 'success',
+                title: 'Pokemon Agregado',
+                text: 'El Pokémon ha sido agregado correctamente.',
+                confirmButtonText: 'Aceptar'
+            });
+        },
+        error: function (xhr, status, error) {
+            alert('Ocurrió un error: ' + error);
+        }
+    });
+})
+
 $("body").on("click", "[data-agregar-pkm]", function () {
     var card = $(this).closest('.card-body');
     var pokemonData = {

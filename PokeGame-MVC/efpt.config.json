@@ -6,16 +6,24 @@
    "IncludeConnectionString": false,
    "ModelNamespace": null,
    "OutputContextPath": null,
-   "OutputPath": "Database\/PokeGame\/",
+   "OutputPath": "Database\/PokeGame\/Context",
    "PreserveCasingWithRegex": true,
    "ProjectRootNamespace": "PokeGame_MVC",
    "Schemas": null,
    "SelectedHandlebarsLanguage": 2,
-   "SelectedToBeGenerated": 0,
+   "SelectedToBeGenerated": 1,
    "T4TemplatePath": null,
    "Tables": [
       {
          "Name": "[dbo].[Enfermeria]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Equipos]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Mensajes]",
          "ObjectType": 0
       },
       {
@@ -27,11 +35,7 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Pokemon]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Pokemon_Usuario]",
+         "Name": "[dbo].[Retos]",
          "ObjectType": 0
       },
       {
