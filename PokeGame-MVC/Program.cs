@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using PokeGame_MVC.Database;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,13 @@ builder.Services.AddDbContext<PokeGameContext>();
 
 builder.Services.AddHttpClient();
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Sistema/Ingresar";
+        options.AccessDeniedPath = "/Sistema/Ingresar";
+    });
+builder.Services.AddAuthorization();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,6 +33,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// Usar autenticación y autorización
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

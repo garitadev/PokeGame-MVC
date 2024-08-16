@@ -1,10 +1,14 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using PokeGame_MVC.Database;
 using PokeGame_MVC.Database.PokeGame;
 using PokeGame_MVC.Models;
 using System.Data;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PokeGame_MVC.Controllers
 {
@@ -40,17 +44,31 @@ namespace PokeGame_MVC.Controllers
         }
         [HttpPost]
         //[Route("/Ingresar")]
-        public ActionResult Ingresar(UsuarioModel usuario)
+        public async Task<IActionResult> Ingresar(UsuarioModel usuario)
         {
-            var usuarioExiste = DbContext.Usuario.Where(t => t.Email == usuario.Email).Select(t => t.PasswordHash).FirstOrDefault();
+            var usuarioExiste = DbContext.Usuario.Where(t => t.Email == usuario.Email).Select(t => new { t.PasswordHash, t.Nombre, t.RolId }).FirstOrDefault();
 
             if (usuarioExiste != null)
             {
-                var result = passwordHasher.VerifyHashedPassword(null, usuarioExiste, usuario.PasswordHash);
+                var result = passwordHasher.VerifyHashedPassword(null, usuarioExiste.PasswordHash, usuario.PasswordHash);
                 result = PasswordVerificationResult.Success;
 
-                if (result.Equals("Success"));
+                if (result.ToString() == "Success")
                 {
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, usuarioExiste.Nombre),
+                        new Claim(ClaimTypes.Role, usuarioExiste.RolId.ToString()) // Asigna un rol desde tu base de datos
+                    };
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var authProperties = new AuthenticationProperties
+                    {
+                        IsPersistent = true
+                    };
+
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+               new ClaimsPrincipal(claimsIdentity),
+               authProperties);
                     return RedirectToAction("Index", "Home");
                 }
                
@@ -162,6 +180,7 @@ namespace PokeGame_MVC.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "1")]
         public IActionResult Listar()
         {
             

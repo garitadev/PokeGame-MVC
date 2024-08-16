@@ -37,11 +37,16 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Sistema" asp-action="Listar">Administracion</a>
                         </li>
+                        @if (User.IsInRole("1"))
+                        {
+                            
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Enfermeria</a>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Enfermeria</a>
+                            </li>
+                        }
 
-                        </li>
+                        
 
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Entrenado</a>
