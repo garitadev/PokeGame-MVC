@@ -40,11 +40,9 @@ public partial class PokeGameContext : DbContext
         modelBuilder.Entity<Enfermeria>(entity =>
         {
             entity.Property(e => e.Descripcion)
-                .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Estado)
-                .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.FechaIngreso).HasColumnType("datetime");

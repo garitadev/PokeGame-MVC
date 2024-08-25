@@ -60,7 +60,7 @@ namespace PokeGame_MVC.Controllers
             DbContext.Enfermeria.Update(entradaEnfermeria);
             await DbContext.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Enfermeria));
         }
     }
 }

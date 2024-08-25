@@ -31,8 +31,10 @@ namespace PokeGame_MVC.Controllers
         {
             var usuarioId = Helpers.Helpers.GetCurrentUserId(User);
 
+            // Filtra los Pokémon que no están en la enfermería
             var pokemones = DbContext.Equipos
                 .Where(e => e.UsuarioId == usuarioId)
+                .Where(e => !DbContext.Enfermeria.Any(enf => enf.PokemonId == e.PokedexId && enf.FechaSalida == null))
                 .Select(e => new SelectListItem
                 {
                     Value = e.Pokedex.Id.ToString(),
@@ -56,6 +58,7 @@ namespace PokeGame_MVC.Controllers
             };
 
             return View(model);
+
         }
 
         [HttpPost]
