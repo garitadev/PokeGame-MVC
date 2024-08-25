@@ -46,9 +46,6 @@ namespace PokeGame_MVC.DAL
 
 
 
-        public async Task AgregarPokemon()
-        {
-
-        }
+        
     }
 }

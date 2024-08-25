@@ -1,18 +1,12 @@
 ﻿@model IEnumerable<PokeGame_MVC.Models.RetoModel>
 
-    @{
-    var T = ViewBag.ListaRestos;
-    if (T is not null)
-    {
-        
-    }
-    }
 <h2>Mis Retos Pendientes</h2>
 <table>
     <thead>
         <tr>
             <th>Retador</th>
             <th>Fecha de Envío</th>
+            <th>Selecciona tu Pokémon</th>
             <th>Acciones</th>
         </tr>
     </thead>
@@ -22,8 +16,16 @@
             <tr>
                 <td>@reto.Retador.Username</td>
                 <td>@reto.FechaEnvio.ToString("g")</td>
-                <td>
+                <td colspan="2">
+                    <!-- Todo el formulario está contenido dentro de una única celda -->
                     <form method="post" asp-action="ResponderReto" asp-route-retoId="@reto.RetoId">
+                        <select name="PokemonId" required>
+                            @foreach (var pokemon in reto.PokemonesDipobibles)
+                            {
+                                <option value="@pokemon.Id">@pokemon.Name</option>
+                            }
+                        </select>
+                        <!-- Botones para aceptar o rechazar el reto -->
                         <button type="submit" name="respuesta" value="Aceptado">Aceptar</button>
                         <button type="submit" name="respuesta" value="Rechazado">Rechazar</button>
                     </form>

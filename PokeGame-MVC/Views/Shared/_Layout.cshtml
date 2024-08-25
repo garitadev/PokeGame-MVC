@@ -26,33 +26,40 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Biblioteca Pokemones</a>
-                        </li>
-                      
-                       
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Pokedex" asp-action="PokedexRead">Pokedex</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Sistema" asp-action="Listar">Administracion</a>
-                        </li>
-                        @if (User.IsInRole("3"))
-                        {
-                            
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Enfermeria</a>
 
+                        @if (User.IsInRole("1"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Biblioteca Pokemones</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Sistema" asp-action="Listar">Administracion</a>
                             </li>
                         }
+                       
+                      
+                       
+                        
+                     
 
                         
                         @if (User.IsInRole("2"))
                         {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Pokedex" asp-action="PokedexRead">Pokedex</a>
+                            </li>
 
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Entrenador" asp-action="MiEquipo">Entrenador</a>
                             </li>
+                        }
+                        @if (User.IsInRole("3"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Enfermeria" asp-action="Index">Enfermeria</a>
+                            </li>
+
+
                         }
                         
                     </ul>

@@ -23,6 +23,10 @@ public partial class Usuario
 
     public string Email { get; set; }
 
+    public virtual ICollection<Enfermeria> EnfermeriaUsuarioAtiende { get; set; } = new List<Enfermeria>();
+
+    public virtual ICollection<Enfermeria> EnfermeriaUsuarioSolicita { get; set; } = new List<Enfermeria>();
+
     public virtual ICollection<Equipos> Equipos { get; set; } = new List<Equipos>();
 
     public virtual ICollection<Mensajes> MensajesDestinatario { get; set; } = new List<Mensajes>();

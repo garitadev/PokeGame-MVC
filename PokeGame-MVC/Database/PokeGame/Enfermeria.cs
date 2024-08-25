@@ -19,7 +19,13 @@ public partial class Enfermeria
 
     public string Descripcion { get; set; }
 
+    public DateTime? FechaIngreso { get; set; }
+
+    public DateTime? FechaSalida { get; set; }
+
     public virtual Pokedex Pokemon { get; set; }
+
+    public virtual Usuario UsuarioAtiende { get; set; }
 
     public virtual Usuario UsuarioSolicita { get; set; }
 }

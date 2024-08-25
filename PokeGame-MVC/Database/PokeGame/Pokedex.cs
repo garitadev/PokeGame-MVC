@@ -25,6 +25,8 @@ public partial class Pokedex
 
     public string Imagen { get; set; }
 
+    public virtual ICollection<Enfermeria> Enfermeria { get; set; } = new List<Enfermeria>();
+
     public virtual ICollection<Equipos> Equipos { get; set; } = new List<Equipos>();
 
     public virtual ICollection<Retos> RetosRetadoPokemon { get; set; } = new List<Retos>();

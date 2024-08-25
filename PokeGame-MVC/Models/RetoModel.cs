@@ -1,5 +1,6 @@
 ﻿using PokeGame_MVC.Database.PokeGame;
 using PokeGame_MVC.Entities;
+using PokeGame_MVC.Models.Pokedex;
 
 namespace PokeGame_MVC.Models
 {
@@ -19,5 +20,7 @@ namespace PokeGame_MVC.Models
         public Usuario Retado { get; set; }
         public Pokemon RetadorPokemon { get; set; }
         public Pokemon RetadoPokemon { get; set; }
+
+        public List<PokedexModel> PokemonesDipobibles { get; set; }
     }
 }

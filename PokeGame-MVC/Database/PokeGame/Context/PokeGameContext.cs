@@ -39,8 +39,6 @@ public partial class PokeGameContext : DbContext
     {
         modelBuilder.Entity<Enfermeria>(entity =>
         {
-            entity.HasNoKey();
-
             entity.Property(e => e.Descripcion)
                 .IsRequired()
                 .HasMaxLength(50)
@@ -49,14 +47,20 @@ public partial class PokeGameContext : DbContext
                 .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.Id).ValueGeneratedOnAdd();
+            entity.Property(e => e.FechaIngreso).HasColumnType("datetime");
+            entity.Property(e => e.FechaSalida).HasColumnType("datetime");
 
-            entity.HasOne(d => d.Pokemon).WithMany()
+            entity.HasOne(d => d.Pokemon).WithMany(p => p.Enfermeria)
                 .HasForeignKey(d => d.PokemonId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Enfermeria_Pokedex");
 
-            entity.HasOne(d => d.UsuarioSolicita).WithMany()
+            entity.HasOne(d => d.UsuarioAtiende).WithMany(p => p.EnfermeriaUsuarioAtiende)
+                .HasForeignKey(d => d.UsuarioAtiendeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Enfermeria_Usuario1");
+
+            entity.HasOne(d => d.UsuarioSolicita).WithMany(p => p.EnfermeriaUsuarioSolicita)
                 .HasForeignKey(d => d.UsuarioSolicitaId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Enfermeria_Usuario");
