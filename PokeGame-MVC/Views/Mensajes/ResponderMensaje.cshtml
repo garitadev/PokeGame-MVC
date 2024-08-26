@@ -1,0 +1,13 @@
+﻿@model RespuestaMensajeViewModel
+
+<h2>Responder a @Model.RemitenteNombre</h2>
+
+<form method="post" asp-action="ResponderMensaje">
+    <input type="hidden" name="DestinatarioId" value="@Model.DestinatarioId" />
+    <input type="hidden" name="MensajeId" value="@Model.MensajeId" />
+
+    <label for="contenido">Mensaje:</label>
+    <textarea id="contenido" name="Contenido" required></textarea>
+
+    <button type="submit">Enviar Respuesta</button>
+</form>

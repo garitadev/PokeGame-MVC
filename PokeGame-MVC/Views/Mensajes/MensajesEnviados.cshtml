@@ -1,0 +1,26 @@
+﻿@model IEnumerable<PokeGame_MVC.Models.MensajesModel>
+
+<h2 class="mb-4">Mensajes Enviados</h2>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>Destinatario</th>
+                <th>Mensaje</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var mensaje in Model)
+            {
+                <tr>
+                    <td>@mensaje.Destinatario.Nombre</td>
+                    <td>@mensaje.Contenido</td>
+                    <td>@mensaje.FechaEnvio.ToString("g")</td>
+                  
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

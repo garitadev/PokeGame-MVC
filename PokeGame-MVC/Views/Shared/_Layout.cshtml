@@ -52,6 +52,16 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Entrenador" asp-action="MiEquipo">Entrenador</a>
                             </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="mensajesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Mensajes
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="mensajesDropdown">
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Mensajes" asp-action="BandejaDeEntrada">Bandeja de Entrada</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Mensajes" asp-action="EnviarMensaje">Enviar Mensaje</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Mensajes" asp-action="MensajesEnviados">Mensajes Enviados</a></li>
+                                </ul>
+                            </li>
                         }
                         @if (User.IsInRole("3"))
                         {

@@ -1,0 +1,30 @@
+﻿@model PokeGame_MVC.Models.EnviarMensajeViewModel
+
+<h2 class="mb-4">Enviar Mensaje</h2>
+
+<form method="post" asp-action="EnviarMensaje" class="form-horizontal">
+    <div class="form-group">
+        <label for="destinatario" class="control-label">Selecciona el destinatario:</label>
+        <div>
+            <select id="destinatario" name="destinatarioId" class="form-control">
+                @foreach (var usuario in Model.ListaUsuarios)
+                {
+                    <option value="@usuario.Value">@usuario.Text</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="contenido" class="control-label">Mensaje:</label>
+        <div>
+            <textarea id="contenido" name="contenido" class="form-control" rows="5"></textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div>
+            <button type="submit" class="btn btn-success">Enviar</button>
+        </div>
+    </div>
+</form>

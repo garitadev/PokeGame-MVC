@@ -1,0 +1,29 @@
+﻿@model IEnumerable<PokeGame_MVC.Models.MensajesModel>
+
+<h2 class="mb-4">Bandeja de Entrada</h2>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>Remitente</th>
+                <th>Mensaje</th>
+                <th>Fecha</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var mensaje in Model)
+            {
+                <tr>
+                    <td>@mensaje.Remitente.Nombre</td>
+                    <td>@mensaje.Contenido</td>
+                    <td>@mensaje.FechaEnvio.ToString("g")</td>
+                    <td>
+                        <a href="@Url.Action("ResponderMensaje", "Mensajes", new { mensajeId = mensaje.MensajeId })" class="btn btn-primary btn-sm">Responder</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

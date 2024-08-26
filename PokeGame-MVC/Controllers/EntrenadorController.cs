@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PokeGame_MVC.Database;
 using PokeGame_MVC.Database.PokeGame;
@@ -71,6 +72,7 @@ namespace PokeGame_MVC.Controllers
             var usuarioId = GetCurrentUserId();
             var equipo = DbContext.Equipos
                 .Where(e => e.UsuarioId == usuarioId)
+                .Where(e => !DbContext.Enfermeria.Any(enf => enf.PokemonId == e.PokedexId && enf.FechaSalida != null))
                 .Include(e => e.Pokedex) // Esto asume que tienes una relación de navegación en el modelo
                 .Select(e => new PokedexModel
                 {
