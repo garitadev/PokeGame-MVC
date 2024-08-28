@@ -1,0 +1,51 @@
+﻿@* @model IEnumerable<PokeGame_MVC.Models.Pokedex.PokedexModel>;
+
+<h2 class="mb-4">Historial de Retos</h2>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>Fecha</th>
+                <th>Retador</th>
+                <th>Retado</th>
+                <th>Pokémon del Retador</th>
+                <th>Pokémon del Retado</th>
+                <th>Estado</th>
+                <th>Ganador</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var reto in Model)
+            {
+                <tr>
+                    <td>@reto.FechaReto.ToString("g")</td>
+                    <td>@reto.Retador.Nombre</td>
+                    <td>@reto.Retado.Nombre</td>
+                    <td>@reto.PokemonRetador.Nombre</td>
+                    <td>@reto.PokemonRetado.Nombre</td>
+                    <td>@reto.Estado</td>
+                    <td>
+                        @if (reto.Estado == "Retador Ganó")
+                        {
+                            @reto.Retador.Nombre
+                        }
+                        else if (reto.Estado == "Retado Ganó")
+                        {
+                            @reto.Retado.Nombre
+                        }
+                        else
+                        {
+                            <span>Empate</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+
+ *@

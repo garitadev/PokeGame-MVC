@@ -66,6 +66,10 @@ public partial class PokeGameContext : DbContext
 
         modelBuilder.Entity<Equipos>(entity =>
         {
+            entity.Property(e => e.State)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
             entity.HasOne(d => d.Pokedex).WithMany(p => p.Equipos)
                 .HasForeignKey(d => d.PokedexId)
                 .OnDelete(DeleteBehavior.ClientSetNull)

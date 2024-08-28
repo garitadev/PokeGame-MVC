@@ -18,6 +18,7 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+         
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">PokeGame_MVC</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -26,23 +27,19 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-
                         @if (User.IsInRole("1"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Biblioteca Pokemones</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Pokedex" asp-action="PokedexRead">Pokedex</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Sistema" asp-action="Listar">Administracion</a>
                             </li>
                         }
-                       
-                      
-                       
-                        
-                     
 
-                        
                         @if (User.IsInRole("2"))
                         {
                             <li class="nav-item">
@@ -62,19 +59,52 @@
                                     <li><a class="dropdown-item" asp-area="" asp-controller="Mensajes" asp-action="MensajesEnviados">Mensajes Enviados</a></li>
                                 </ul>
                             </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="retosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Retos
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="retosDropdown">
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Retos" asp-action="EnviarReto">Enviar Reto</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Retos" asp-action="MisRetos">Retos Pendientes</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Retos" asp-action="HistorialRetos">Historial Retos</a></li>
+                                </ul>
+                            </li>
                         }
+
                         @if (User.IsInRole("3"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Enfermeria" asp-action="Enfermeria">Enfermeria</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Enfermeria" asp-action="Enfermeria">Enfermería</a>
                             </li>
-
-
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="mensajesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Mensajes
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="mensajesDropdown">
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Mensajes" asp-action="BandejaDeEntrada">Bandeja de Entrada</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Mensajes" asp-action="EnviarMensaje">Enviar Mensaje</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Mensajes" asp-action="MensajesEnviados">Mensajes Enviados</a></li>
+                                </ul>
+                            </li>
                         }
-                        
+                    </ul>
+
+                    <!-- Perfil del Usuario al final a la derecha -->
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="perfilDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                @User.Identity.Name <!-- Muestra el nombre del usuario -->
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="perfilDropdown">
+                                @* <li><a class="dropdown-item" asp-area="" asp-controller="Sistema" asp-action="Perfil">Ver Perfil</a></li> *@
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Sistema" asp-action="Logout">Cerrar Sesión</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </div>
+
         </nav>
     </header>
     <div class="container">

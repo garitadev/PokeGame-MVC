@@ -13,6 +13,8 @@ public partial class Equipos
 
     public int PokedexId { get; set; }
 
+    public string State { get; set; }
+
     public virtual Pokedex Pokedex { get; set; }
 
     public virtual Usuario Usuario { get; set; }

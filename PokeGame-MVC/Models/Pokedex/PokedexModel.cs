@@ -7,5 +7,6 @@
         public int Weight { get; set; }
         public string Types { get; set; }
         public string Imagen { get; set; }
+        public string State { get; set; }
     }
 }

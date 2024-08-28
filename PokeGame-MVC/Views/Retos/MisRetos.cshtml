@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<PokeGame_MVC.Models.RetoModel>
 
 <h2>Mis Retos Pendientes</h2>
-<table>
+<table class="table table-striped">
     <thead>
         <tr>
             <th>Retador</th>
@@ -17,17 +17,17 @@
                 <td>@reto.Retador.Username</td>
                 <td>@reto.FechaEnvio.ToString("g")</td>
                 <td colspan="2">
-                    <!-- Todo el formulario está contenido dentro de una única celda -->
-                    <form method="post" asp-action="ResponderReto" asp-route-retoId="@reto.RetoId">
-                        <select name="PokemonId" required>
-                            @foreach (var pokemon in reto.PokemonesDipobibles)
-                            {
-                                <option value="@pokemon.Id">@pokemon.Name</option>
-                            }
-                        </select>
-                        <!-- Botones para aceptar o rechazar el reto -->
-                        <button type="submit" name="respuesta" value="Aceptado">Aceptar</button>
-                        <button type="submit" name="respuesta" value="Rechazado">Rechazar</button>
+                    <form method="post" asp-action="ResponderReto" asp-route-retoId="@reto.RetoId" class="form-inline">
+                        <div class="form-group mb-2">
+                            <select name="PokemonId" class="form-control" required>
+                                @foreach (var pokemon in reto.PokemonesDipobibles)
+                                {
+                                    <option value="@pokemon.Id">@pokemon.Name</option>
+                                }
+                            </select>
+                        </div>
+                        <button type="submit" name="respuesta" value="Aceptado" class="btn btn-success ml-2">Aceptar</button>
+                        <button type="submit" name="respuesta" value="Rechazado" class="btn btn-danger ml-2">Rechazar</button>
                     </form>
                 </td>
             </tr>

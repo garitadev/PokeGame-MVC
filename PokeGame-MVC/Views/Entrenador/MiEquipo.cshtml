@@ -1,25 +1,129 @@
 ﻿@model IEnumerable<PokeGame_MVC.Models.Pokedex.PokedexModel>;
 
+@{
+    List<PokeGame_MVC.Models.Pokedex.PokedexModel> pokemonesEnfermos= new List<PokeGame_MVC.Models.Pokedex.PokedexModel>();
+    List<PokeGame_MVC.Models.Pokedex.PokedexModel> pokemonesEnEnfermeria = new List<PokeGame_MVC.Models.Pokedex.PokedexModel>();
+    List<PokeGame_MVC.Models.Pokedex.PokedexModel> pokemonesListos = new List<PokeGame_MVC.Models.Pokedex.PokedexModel>();
+    int usuarioId = ViewBag.UsuarioId;
+    foreach (var pokemon in Model)
+    {
+        switch (int.Parse(pokemon.State))
+        {
+            case 1://todo bien
+                pokemonesListos.Add(pokemon);
+                Console.WriteLine("Pokémon agregado a la lista de enfermos.");
+                break;
+
+            case 2://perdio
+                pokemonesEnfermos.Add(pokemon);
+                Console.WriteLine("Pokémon agregado a la lista de enfermería.");
+                break;
+
+            case 3://en enfermeria
+                pokemonesEnEnfermeria.Add(pokemon);
+                Console.WriteLine("Pokémon agregado a la lista de listos.");
+                break;
+
+            default:
+                Console.WriteLine("Código de estado desconocido.");
+                break;
+        }
+
+    }
+
+}
+
 <h2>Mi Equipo</h2>
 <a class="" asp-area="" asp-controller="Retos" asp-action="EnviarReto">Enviar Reto</a>
 
-<div class="equipo-container">
-    @foreach (var pokemon in Model)
-    {
-        <div class="pokemon-card">
-            <div class="pokemon-header">
-                <h3>@pokemon.Name</h3>
-                <span>N.º @pokemon.Id</span>
-            </div>
-            <div class="pokemon-body">
-                <p><strong>Tipo:</strong> @pokemon.Types.ToString()</p>
-                <p><strong>Debilidad:</strong> </p>
-                <p><strong>Evoluciones:</strong>  "Ninguna"</p>
-                <p><strong>Peso:</strong> @pokemon.Weight kg</p>
-            </div>
+@if (pokemonesListos.Count != 0)
+{
+    <div class="row">
+
+        <div class="equipo-container">
+            @foreach (var pokemon in pokemonesListos)
+            {
+                <div class="pokemon-card">
+                    <div class="pokemon-header">
+                        <h3>@pokemon.Name</h3>
+                        <span>N.º @pokemon.Id</span>
+                    </div>
+                    <div class="pokemon-body">
+                        <p><strong>Tipo:</strong> @pokemon.Types.ToString()</p>
+                        <p><strong>Debilidad:</strong> </p>
+                        <p><strong>Evoluciones:</strong>  "Ninguna"</p>
+                        <p><strong>Peso:</strong> @pokemon.Weight kg</p>
+                    </div>
+
+
+                </div>
+            }
         </div>
-    }
-</div>
+
+
+
+    </div>
+}
+@if (pokemonesEnfermos.Count != 0)
+{
+    <div class="row mt-5">
+        <h2>Necesitan atención</h2>
+        <div class="equipo-container">
+            @foreach (var pokemon in pokemonesEnfermos)
+            {
+                <div class="pokemon-card">
+                    <div class="pokemon-header">
+                        <h3>@pokemon.Name</h3>
+                        <span>N.º @pokemon.Id</span>
+                    </div>
+                    <div class="pokemon-body">
+                        <p><strong>Tipo:</strong> @pokemon.Types.ToString()</p>
+                        <p><strong>Debilidad:</strong> </p>
+                        <p><strong>Evoluciones:</strong>  "Ninguna"</p>
+                        <p><strong>Peso:</strong> @pokemon.Weight kg</p>
+                    </div>
+
+                    <button data-enfermeria-equipo="@pokemon.Id" data-usuario-id="@usuarioId" class="btn btn-primary equipoAgregar">Enviar a enfermeria</button>
+
+                </div>
+            }
+        </div>
+
+
+
+    </div>
+}
+
+
+@if (pokemonesEnEnfermeria.Count != 0)
+{
+    <div class="row mt-5">
+        <h2>Están siendo atendidos</h2>
+        <div class="equipo-container">
+            @foreach (var pokemon in pokemonesEnEnfermeria)
+            {
+                <div class="pokemon-card">
+                    <div class="pokemon-header">
+                        <h3>@pokemon.Name</h3>
+                        <span>N.º @pokemon.Id</span>
+                    </div>
+                    <div class="pokemon-body">
+                        <p><strong>Tipo:</strong> @pokemon.Types.ToString()</p>
+                        <p><strong>Debilidad:</strong> </p>
+                        <p><strong>Evoluciones:</strong>  "Ninguna"</p>
+                        <p><strong>Peso:</strong> @pokemon.Weight kg</p>
+                    </div>
+
+
+                </div>
+            }
+        </div>
+
+
+
+    </div>
+}
+
 
 <style>
     .equipo-container {

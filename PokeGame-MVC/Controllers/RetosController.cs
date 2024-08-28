@@ -7,6 +7,7 @@ using PokeGame_MVC.Models;
 using PokeGame_MVC.Models.Pokedex;
 using System.Security.Claims;
 using PokeGame_MVC.Helpers;
+using System.Linq;
 namespace PokeGame_MVC.Controllers
 {
     public class RetosController : Controller
@@ -118,7 +119,6 @@ namespace PokeGame_MVC.Controllers
             PokeGame_MVC.Helpers.Helpers help = new();
 
             var reto = DbContext.Retos.FirstOrDefault(r => r.RetoId == retoId);
-
             if (reto == null || reto.RetadoId != Helpers.Helpers.GetCurrentUserId(User))
             {
                 return NotFound();
@@ -139,13 +139,22 @@ namespace PokeGame_MVC.Controllers
                     if (retadorPokemon.Peso > retadoPokemon.Peso)
                     {
                         reto.Estado = "Retador Ganó";
-                        help.EnviarAPokemonaEnfermeria((int)reto.RetadorPokemonId, reto.RetadorId);
+                        var pokemon = DbContext.Equipos.Where(t => t.PokedexId == retadoPokemon.Id).FirstOrDefault();
+                        pokemon.State = "2";
+                        DbContext.SaveChanges();
+
+
+
+                        //help.EnviarAPokemonaEnfermeria((int)reto.RetadorPokemonId, reto.RetadorId);
 
                     }
                     else if (retadorPokemon.Peso < retadoPokemon.Peso)
                     {
                         reto.Estado = "Retado Ganó";
-                        help.EnviarAPokemonaEnfermeria((int)reto.RetadoPokemonId, reto.RetadorId);
+                        var pokemon = DbContext.Equipos.Where(t => t.PokedexId == retadorPokemon.Id).FirstOrDefault();
+                        pokemon.State = "2";
+                        DbContext.SaveChanges();
+                        // help.EnviarAPokemonaEnfermeria((int)reto.RetadoPokemonId, reto.RetadorId);
                     }
                     else
                     {

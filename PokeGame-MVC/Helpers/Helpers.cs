@@ -32,7 +32,6 @@ namespace PokeGame_MVC.Helpers
             try
             {
                 var random = new Random();
-
                 int count = DbContext.Usuario.Count(t => t.RolId == 3);
                 int index = random.Next(count);
                 var usuarioAleatorio = DbContext.Usuario

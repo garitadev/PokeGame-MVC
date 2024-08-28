@@ -9,6 +9,7 @@ using PokeGame_MVC.Models;
 using System.Data;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace PokeGame_MVC.Controllers
 {
@@ -199,5 +200,28 @@ namespace PokeGame_MVC.Controllers
 
             return View(usuarios);
         }
+
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return RedirectToAction("Ingresar", "Sistema");
+        }
+        /*[HttpGet]
+        public async Task<IActionResult> Perfil()
+        {
+            var usuarioId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var usuario = await DbContext.Usuario
+                .FirstOrDefaultAsync(u => u.Id == int.Parse(usuarioId));
+
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+
+            return View(usuario);
+        }*/
     }
 }

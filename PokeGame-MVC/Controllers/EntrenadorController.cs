@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PokeGame_MVC.Database;
 using PokeGame_MVC.Database.PokeGame;
+using PokeGame_MVC.Models;
 using PokeGame_MVC.Models.Pokedex;
 using System.Security.Claims;
 namespace PokeGame_MVC.Controllers
@@ -59,7 +60,9 @@ namespace PokeGame_MVC.Controllers
             var equipo = new Equipos
             {
                 UsuarioId = usuarioId,
-                PokedexId = id
+                PokedexId = id,
+                State = "1"
+
             };
 
             DbContext.Equipos.Add(equipo);
@@ -70,20 +73,54 @@ namespace PokeGame_MVC.Controllers
         public IActionResult MiEquipo()
         {
             var usuarioId = GetCurrentUserId();
-            var equipo = DbContext.Equipos
-                .Where(e => e.UsuarioId == usuarioId)
-                .Where(e => !DbContext.Enfermeria.Any(enf => enf.PokemonId == e.PokedexId && enf.FechaSalida != null))
-                .Include(e => e.Pokedex) // Esto asume que tienes una relación de navegación en el modelo
-                .Select(e => new PokedexModel
-                {
-                    Name = e.Pokedex.Nombre,
-                    Id = e.Pokedex.Id,
-                    Weight = e.Pokedex.Peso,
-                    Types = e.Pokedex.Tipo,
-                    Imagen = e.Pokedex.Imagen
-                }).ToList();
 
+
+            var equipo = DbContext.Equipos
+            .Where(e => e.UsuarioId == usuarioId)
+            .Include(e => e.Pokedex)
+            .Select(e => new PokedexModel
+            {
+                Name = e.Pokedex.Nombre,
+                Id = e.Pokedex.Id,
+                Weight = e.Pokedex.Peso,
+                Types = e.Pokedex.Tipo,
+                Imagen = e.Pokedex.Imagen,
+                State = e.State,
+            })
+            .ToList();
+
+
+            ViewBag.UsuarioId = usuarioId;
             return View(equipo);
+        }
+
+        public async Task<IActionResult> HistorialRetos()
+        {
+            var usuarioId = Helpers.Helpers.GetCurrentUserId(User);
+
+            var retos = await DbContext.Retos
+                .Where(r => r.RetadorId == usuarioId || r.RetadoId == usuarioId)
+                .OrderByDescending(r => r.FechaEnvio)
+                .Select(r => new RetoModel
+                {
+                    RetoId = r.RetoId,
+                    RetadorId = r.RetadorId,
+                    RetadoId = r.RetadoId,
+                    Estado = r.Estado,
+                    FechaEnvio = r.FechaEnvio,
+                    FechaRespuesta = r.FechaRespuesta,
+                    RetadorPokemonId = r.RetadorPokemonId,
+                    RetadoPokemonId = r.RetadoPokemonId,
+
+                    Retador = r.Retador,
+                    Retado = r.Retado,
+                    //RetadorPokemon = r.RetadoPokemon.Nombre,
+                    //RetadoPokemon = r.RetadoPokemon,
+
+                })
+                .ToListAsync();
+
+            return View(retos);
         }
 
         private int GetCurrentUserId()

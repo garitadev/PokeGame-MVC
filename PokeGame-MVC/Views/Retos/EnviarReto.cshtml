@@ -1,21 +1,21 @@
-﻿<form method="post" asp-action="EnviarReto">
-    <div>
+﻿<form method="post" asp-action="EnviarReto" class="container mt-4">
+    <div class="form-group">
         <label for="retado">Selecciona el usuario a retar:</label>
-        <select id="retado" name="RetadoId">
+        <select id="retado" name="RetadoId" class="form-control">
             @foreach (var usuario in Model.Usuarios)
             {
                 <option value="@usuario.Value">@usuario.Text</option>
             }
         </select>
     </div>
-    <div>
+    <div class="form-group mt-5">
         <label for="pokemon">Selecciona tu Pokémon:</label>
-        <select id="pokemon" name="RetadorPokemonId">
+        <select id="pokemon" name="RetadorPokemonId" class="form-control">
             @foreach (var pokemon in Model.Pokemones)
             {
                 <option value="@pokemon.Value">@pokemon.Text</option>
             }
         </select>
     </div>
-    <button type="submit">Enviar Reto</button>
+    <button type="submit" class="btn btn-primary mt-5">Enviar Reto</button>
 </form>

@@ -2,15 +2,22 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
-/*document.getElementById('pokemonFilter').addEventListener('input', function () {
-    var filter = this.value.toLowerCase();
-    var cards = document.querySelectorAll('.pokemon-card');
 
-    cards.forEach(function (card) {
-        var cardName = card.getAttribute('data-name').toLowerCase();
-        card.style.display = cardName.includes(filter) ? 'block' : 'none';
-    });
+/*$("body").on("input", "[data-buscar-pokedex]", function () {
+    console.log("sdfsfdsf")
+   
 });*/
+$("body").on("input", "[data-buscar-pokedex]", function () {
+    console.log("sdfsfdsf")
+
+    var filter = $(this).val().toLowerCase(); // Obtiene el valor del input y lo convierte a minúsculas
+    var cards = $("#pokemonList .card"); // Selecciona todas las tarjetas de Pokémon
+
+    cards.each(function () {
+        var cardName = $(this).find('[data-nombre]').data('nombre').toLowerCase(); // Obtiene el nombre del Pokémon desde el atributo data-nombre
+        $(this).toggle(cardName.includes(filter)); // Muestra u oculta la tarjeta según si coincide con el filtro
+    });
+});
 
 $("body").on("click", "[data-usuariodelete]", function ()
 {
@@ -169,3 +176,54 @@ $(document).ready(function () {
     
 });
 
+$("body").on("click", "[data-enfermeria-equipo]", function () {
+    // Obtén el valor del atributo data-enfermeria-equipo
+    var pokemonId = $(this).data("enfermeria-equipo");
+    var usuarioId = $(this).data("usuario-id");
+    console.log(usuarioId)
+    
+    $.ajax({
+        url: '/Enfermeria/EnviarAPokemonaEnfermeria',
+        type: 'POST',
+        data: {
+            pokemonId: pokemonId,
+            usuarioId: usuarioId
+        }, 
+        success: function () {
+            Swal.fire({
+                icon: 'success',
+                title: 'Pokemon enviado',
+                text: 'El Pokémon ha sido enviado a la enfermeria.',
+                confirmButtonText: 'Aceptar'
+            });
+        },
+        error: function (xhr, status, error) {
+            alert('Ocurrió un error: ' + error);
+        }
+    });
+    // Imprime el valor en la consola (puedes hacer lo que necesites con él)
+    console.log(valor);
+});
+
+
+//
+$("body").on("input", "[data-buscar-mensaje]", function () {
+    console.log("dddd")
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById('searchInput');
+    filter = input.value.toUpperCase();
+    table = document.getElementById('mensajesTable');
+    tr = table.getElementsByTagName('tr');
+
+    for (i = 1; i < tr.length; i++) {  // Empieza en 1 para saltar el encabezado
+        td = tr[i].getElementsByTagName('td')[0]; // Filtra por la primera columna (destinatario)
+        if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+});
